@@ -1,36 +1,29 @@
-﻿using System;
+﻿using AdventOfCode2023.Helpers;
 using System.Linq;
 
-namespace AdventOfCode2023
+namespace AdventOfCode2023;
+
+class AoC1a
 {
-    class AoC1a
+    public static int Solve(string input)
     {
-        public int Solve(string input)
+        int returnValue = 0;
+
+        var inputs = input.ParseToArrayByNewLine();
+        foreach (var line in inputs)
         {
-            var inputs = ParseInput(input);
-
-            var currVal = 0;
-            var maxVal = 0;
-
-            for (int i = 0; i < inputs.Length; i++)
+            var numbers = line.Where(char.IsDigit).ToArray();
+            if (numbers.Length == 0)
             {
-                if (inputs[i] == -1)
-                {
-                    maxVal = Math.Max(currVal, maxVal);
-                    currVal = 0;
-                } 
-                else
-                {
-                    currVal += inputs[i];
-                }
+                continue;
             }
 
-            return maxVal;
+            var digit1 = numbers[0];
+            var digit2 = numbers[^1];
+
+            returnValue += int.Parse($"{digit1}{digit2}");
         }
 
-        private static int[] ParseInput(string input)
-        {
-            return input.ReplaceLineEndings().Split(Environment.NewLine).Select(_ => _ == "" ? "-1" : _).Select(_ => int.Parse(_)).ToArray();
-        }
+        return returnValue;
     }
 }

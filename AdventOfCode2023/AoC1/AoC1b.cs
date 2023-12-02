@@ -1,38 +1,61 @@
-﻿using System;
+﻿using AdventOfCode2023.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdventOfCode2023
+namespace AdventOfCode2023;
+
+public class AoC1b
 {
-    class AoC1b
+    public static int Solve(string input)
     {
-        public int Solve(string input)
+        int returnValue = 0;
+
+        char[] intNumbersArray = "0123456789".ToCharArray();
+        string[] stringNumberArray = "one two three four five six seven eight nine".Split(' ').ToArray();
+
+        var inputs = input.ParseToArrayByNewLine();
+        foreach (var line in inputs)
         {
-            var inputs = ParseInput(input);
+            var indexes = new Dictionary<int, int>();
 
-            var currVal = 0;
-
-            var vals = new List<int>();
-
-            for (int i = 0; i < inputs.Length; i++)
+            for (var x = 0; x < stringNumberArray.Length; x++)
             {
-                if (inputs[i] == -1)
+                var num = stringNumberArray[x];
+                var numberIndex = line.IndexOf(num);
+                if (numberIndex != -1)
                 {
-                    vals.Add(currVal);
-                    currVal = 0;
+                    indexes.Add(numberIndex, x + 1);
                 }
-                else
+
+                numberIndex = line.LastIndexOf(num);
+                if (numberIndex != -1 && !indexes.ContainsKey(numberIndex))
                 {
-                    currVal += inputs[i];
+                    indexes.Add(numberIndex, x + 1);
                 }
             }
 
-            return vals.OrderByDescending(_ => _).Take(3).Sum();
+            for (var y = 0; y < intNumbersArray.Length; y++)
+            {
+                var num = intNumbersArray[y];
+                var numberIndex = line.IndexOf(num);
+                if (numberIndex != -1)
+                {
+                    indexes.Add(numberIndex, y);
+                }
+
+                numberIndex = line.LastIndexOf(num);
+                if (numberIndex != -1 && !indexes.ContainsKey(numberIndex))
+                {
+                    indexes.Add(numberIndex, y);
+                }
+            }
+
+            var digit1 = indexes.GetValueOrDefault(indexes.Min(_ => _.Key));
+            var digit2 = indexes.GetValueOrDefault(indexes.Max(_ => _.Key));
+
+            returnValue += int.Parse($"{digit1}{digit2}");
         }
 
-        private static int[] ParseInput(string input)
-        {
-            return input.ReplaceLineEndings().Split(Environment.NewLine).Select(_ => _ == "" ? "-1" : _).Select(_ => int.Parse(_)).ToArray();
-        }
+        return returnValue;
     }
 }

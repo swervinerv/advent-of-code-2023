@@ -24,6 +24,9 @@
     <None Remove="Helpers\" />
     <None Remove="AoC2\" />
     <None Remove="AoC2\Classes\" />
+    <None Remove="AoC3\" />
+    <None Remove="AoC3\input.txt" />
+    <None Remove="AoC3\Classes\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="AoC1\aoc1a.txt">
@@ -41,5 +44,12 @@
     <Folder Include="Helpers\" />
     <Folder Include="AoC2\" />
     <Folder Include="AoC2\Classes\" />
+    <Folder Include="AoC3\" />
+    <Folder Include="AoC3\Classes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AoC3\input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
